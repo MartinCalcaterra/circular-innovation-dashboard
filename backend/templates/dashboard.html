@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CIC Member Portal</title>
+
+<style>
+    :root {
+        --cic-blue: #1b4f72;
+        --cic-teal: #1abc9c;
+        --cic-green: #27ae60;
+        --cic-yellow: #f4b400;
+        --cic-light: #f4f6f8;
+        --cic-dark: #2c3e50;
+    }
+
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: var(--cic-light);
+    }
+
+    .sidebar {
+    width: 240px;
+    height: 100vh;
+    background-color: #e8f5e9; /* pale sustainable green */
+    color: #2c3e50;
+    position: fixed;
+    padding: 25px;
+    border-right: 1px solid #d0e6d2;
+    }
+
+    .sidebar h2 {
+    margin-bottom: 40px;
+    color: #1b4f72; /* deep blue accent */
+}
+
+.sidebar p {
+    margin: 15px 0;
+    cursor: pointer;
+    color: #2c3e50;
+}
+
+.sidebar p:hover {
+    color: #27ae60;
+}
+
+    .main {
+        margin-left: 260px;
+        padding: 40px;
+    }
+
+    .header {
+        background: white;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0px 3px 10px rgba(0,0,0,0.06);
+        margin-bottom: 30px;
+        border-left: 6px solid var(--cic-yellow);
+    }
+
+    .card {
+        background: white;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0px 3px 10px rgba(0,0,0,0.06);
+        margin-bottom: 20px;
+        border-top: 4px solid var(--cic-green);
+    }
+
+    h1, h2, h3 {
+        color: var(--cic-dark);
+    }
+</style>
+</head>
+
+<body>
+
+<div class="sidebar">
+    <h2>CIC Portal</h2>
+    <p>Dashboard</p>
+    <p>Collaboration Board</p>
+    <p>Events</p>
+    <p>Governance</p>
+</div>
+
+<div class="main">
+    <div class="header">
+        <h1>Member Dashboard</h1>
+        <p>Welcome to the CIC Membership Experience</p>
+    </div>
+
+    <div class="card">
+        <h3>Membership Tier</h3>
+        <p>Small Business / Industry Leadership</p>
+    </div>
+
+    <div class="card">
+        <h3>Cohort</h3>
+        <p>2026 Circular Innovation Cohort</p>
+    </div>
+
+    <div class="card">
+        <h3>Engagement Progress</h3>
+        <p>Chart will go here tomorrow.</p>
+    </div>
+
+    <div style="margin-top:40px; font-size:12px; color:gray;">
+    UI prototype v0.1 – Layout in progress, just initial frontend to get the structure in place. Functionality and design will be added soon
+
+</div>
+
+</body>
+</html>
