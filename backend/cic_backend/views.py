@@ -22,18 +22,23 @@ def user_dashboard(request):
 
     if company == "smallcompany":
         context = {
+            "company_name": "Greenest Tech Corp.",
             "tier": "Small Business",
             "engagement": 62,
-            "cohort": "Scaling & Capability Cohort",
-            "mentor_button": "Request Mentor",
+            "events": 6,
+            "mentorship": 1,
+            "policy": 0,
+            "networking": 3,
         }
-
     else:
         context = {
+            "company_name": "Eco Global Industries",
             "tier": "Industry Leadership",
             "engagement": 88,
-            "cohort": "Policy & Strategic Leadership Cohort",
-            "mentor_button": "Become a Mentor",
+            "events": 4,
+            "mentorship": 3,
+            "policy": 5,
+            "networking": 6,
         }
 
     return render(request, "user_dashboard.html", context)
