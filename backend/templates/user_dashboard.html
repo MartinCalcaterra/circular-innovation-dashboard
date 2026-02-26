@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+.dashboard {
+    max-width: 900px;
+    margin: 50px auto;
+}
+
+.card {
+    background: white;
+    padding: 25px;
+    margin-bottom: 20px;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+.button {
+    padding: 10px 18px;
+    border-radius: 8px;
+    border: none;
+    background: linear-gradient(90deg, #2a9d8f, #f4c430);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+</style>
+
+<div class="dashboard">
+
+    <h2>{{ tier }} Dashboard</h2>
+
+    <div class="card">
+        <h3>Your Cohort</h3>
+        <p>{{ cohort }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Engagement Score</h3>
+        <p>{{ engagement }}%</p>
+    </div>
+
+    <div class="card">
+        <h3>Mentorship</h3>
+        <button class="button">{{ mentor_button }}</button>
+    </div>
+
+    <div class="card">
+        <h3>Progression Path</h3>
+        <p>Access → Participation → Influence → Governance</p>
+    </div>
+
+</div>
+
+{% endblock %}

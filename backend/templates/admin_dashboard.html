@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+.admin-container {
+    max-width: 900px;
+    margin: 50px auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+th, td {
+    padding: 15px;
+    text-align: left;
+}
+
+th {
+    background: #2a9d8f;
+    color: white;
+}
+
+tr:nth-child(even) {
+    background: #f4f4f4;
+}
+</style>
+
+<div class="admin-container">
+    <h2>Admin Dashboard</h2>
+
+    <table>
+        <tr>
+            <th>Company</th>
+            <th>Tier</th>
+            <th>Engagement</th>
+        </tr>
+
+        {% for company in companies %}
+        <tr>
+            <td>{{ company.name }}</td>
+            <td>{{ company.tier }}</td>
+            <td>{{ company.engagement }}%</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+</div>
+
+{% endblock %}
