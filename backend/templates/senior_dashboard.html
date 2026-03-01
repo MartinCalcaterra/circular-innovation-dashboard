@@ -1,0 +1,487 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+.dashboard {
+    max-width: 1200px;
+    margin: 40px auto;
+}
+
+.nav-tabs {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.nav-tabs button {
+    padding: 10px 18px;
+    border-radius: 20px;
+    border: none;
+    background: #4CAF50;
+    color: white;
+    cursor: pointer;
+    font-weight: 500;
+    transition: 0.2s ease;
+}
+
+.nav-tabs button:hover {
+    transform: translateY(-2px);
+}
+
+.section { display: none; }
+.section.active { display: block; }
+
+/* ===== Overview Layout ===== */
+
+.overview-layout {
+    display: flex;
+    gap: 40px;
+}
+
+.sidebar {
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.card {
+    background: white;
+    padding: 22px;
+    border-radius: 14px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+}
+
+.card h3 {
+    margin: 0;
+    font-size: 22px;
+}
+
+.card p {
+    margin: 6px 0 0 0;
+    color: #666;
+    font-size: 14px;
+}
+
+.progress-bar {
+    height: 10px;
+    background: #e5e5e5;
+    border-radius: 6px;
+    margin-top: 12px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #2a9d8f, #f4c430);
+    border-radius: 6px;
+}
+
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+}
+.progress-steps {
+    display: flex;
+    align-items: center;
+    margin-top: 25px;
+    position: relative;
+}
+
+.step {
+    text-align: center;
+    flex: 1;
+    position: relative;
+    z-index: 2;
+}
+
+.dot {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #ccc;
+    margin: 0 auto 8px auto;
+}
+
+.dot.active {
+    background: linear-gradient(90deg, #2a9d8f, #f4c430);
+}
+
+.connector {
+    height: 3px;
+    background: #ccc;
+    flex: 1;
+    margin: 0 -10px;
+    position: relative;
+    top: -9px;
+    z-index: 1;
+}
+
+.connector.active-line {
+    background: linear-gradient(90deg, #2a9d8f, #f4c430);
+}
+
+/* ===== Cohort Card ===== */
+
+.cohort-card-enhanced {
+    background: linear-gradient(135deg, #ffffff, #f8fbf9);
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    border-left: 6px solid #2a9d8f;
+}
+
+.cohort-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.status-badge {
+    background: linear-gradient(90deg, #2a9d8f, #f4c430);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* ===== Shared Blocks ===== */
+
+.announcement-block,
+.progression-block,
+.events-block {
+    background: white;
+    padding: 25px;
+    border-radius: 14px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+}
+
+.announcement-item {
+    background: #f7f7f7;
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 12px;
+}
+
+.email-note {
+    font-size: 12px;
+    color: #777;
+    margin-top: 15px;
+}
+
+/* ===== Buttons ===== */
+
+.primary-btn {
+    padding: 10px 16px;
+    border-radius: 8px;
+    border: none;
+    background: linear-gradient(90deg, #2a9d8f, #f4c430);
+    color: white;
+    cursor: pointer;
+    font-weight: 600;
+    margin-top: 15px;
+}
+
+.secondary-btn {
+    padding: 10px 16px;
+    border-radius: 8px;
+    border: 1px solid #2a9d8f;
+    background: white;
+    color: #2a9d8f;
+    cursor: pointer;
+    font-weight: 600;
+    margin-top: 12px;
+}
+
+/* ===== Events ===== */
+
+#events .events-block + .events-block {
+    margin-top: 30px;
+}
+
+.event-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 0;
+}
+
+.event-title {
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.event-meta {
+    font-size: 13px;
+    color: #777;
+    margin-top: 4px;
+}
+
+.event-status {
+    font-size: 12px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: 700;
+}
+
+.attended { background: #e0f2f1; color: #2a9d8f; }
+.rsvp { background: #fff8e1; color: #b8860b; }
+.open { background: #eeeeee; color: #555; }
+.review { background: #e7f1ff; color: #1d4ed8; }
+.finalized { background: #e6ffed; color: #166534; }
+
+.event-divider {
+    height: 1px;
+    background: #eee;
+}
+
+.approval-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 6px;
+}
+
+</style>
+
+<div class="dashboard">
+
+<h2>Welcome, {{ company_name }}</h2>
+
+<div class="nav-tabs">
+    <button onclick="showSection('overview')">Overview</button>
+    <button onclick="showSection('announcements')">Announcements</button>
+    <button onclick="showSection('events')">Events</button>
+    <button onclick="showSection('collaboration')">Collaboration</button>
+</div>
+
+<!-- ================= OVERVIEW ================= -->
+<div id="overview" class="section active">
+
+<div class="overview-layout">
+
+<div class="sidebar">
+
+<div class="card">
+    <h3>{{ engagement }}%</h3>
+    <p>Engagement Score</p>
+    <div class="progress-bar">
+        <div class="progress-fill" style="width: {{ engagement }}%;"></div>
+    </div>
+    <p style="font-size:12px; margin-top:10px; color:#777;">
+        Last updated: December 2025
+    </p>
+</div>
+
+<div class="card">
+    <h3>{{ events }}</h3>
+    <p>Events Attended</p>
+</div>
+
+<div class="cohort-card-enhanced">
+    <div class="cohort-header">
+        <h3>{{ cohort_name }}</h3>
+        <span class="status-badge">Senior</span>
+    </div>
+
+    <ul style="margin-top:15px;">
+        <li>Toronto Recycling</li>
+        <li>Bathurst Baked Goods</li>
+        <li>MicroTech</li>
+    </ul>
+
+    <button class="secondary-btn">Message Initial Members</button>
+</div>
+
+</div>
+
+<div class="main-content">
+
+<div class="announcement-block">
+    <h3>Recent Announcements</h3>
+
+    <div class="announcement-item">
+        Policy Update – Circular procurement standards released.
+    </div>
+
+    <div class="announcement-item">
+        Executive Briefing – Federal Circular Strategy Notes (Restricted).
+    </div>
+
+    <p class="email-note">
+        Senior members receive restricted executive updates.
+    </p>
+</div>
+
+<div class="progression-block">
+    <h3>Membership Progression</h3>
+
+    <div class="progress-steps">
+
+        <!-- Initial -->
+        <div class="step completed">
+            <div class="dot active"></div>
+            <p>Initial</p>
+        </div>
+
+        <div class="connector active-line"></div>
+
+        <!-- Senior -->
+        <div class="step active">
+            <div class="dot active"></div>
+            <p>Senior</p>
+        </div>
+
+        <div class="connector"></div>
+
+        <!-- Leader -->
+        <div class="step">
+            <div class="dot"></div>
+            <p>Leader</p>
+        </div>
+
+    </div>
+
+    <p style="margin-top:15px;">
+        Maintain ≥80% engagement at year-end to qualify for Leader review.
+    </p>
+</div>
+
+</div>
+</div>
+</div>
+
+<!-- ================= ANNOUNCEMENTS ================= -->
+<div id="announcements" class="section">
+<div class="announcement-block">
+    <h3>All Announcements</h3>
+
+    <div class="announcement-item">
+        Policy Update – Circular procurement standards.
+    </div>
+
+    <div class="announcement-item">
+        Member Collaboration – Recycling & MicroTech.
+    </div>
+
+    <div class="announcement-item">
+        Executive Briefing – Federal Strategy Notes.
+    </div>
+</div>
+</div>
+
+<!-- ================= EVENTS ================= -->
+<div id="events" class="section">
+
+<div class="events-block">
+    <h3>Upcoming Events</h3>
+
+    <div class="event-row">
+        <div>
+            <div class="event-title">Circular Procurement Roundtable</div>
+            <div class="event-meta">March 18, 2026</div>
+        </div>
+        <div class="event-status rsvp">RSVP Confirmed</div>
+    </div>
+
+    <div class="event-divider"></div>
+
+    <div class="event-row">
+        <div>
+            <div class="event-title">Sustainable Packaging Lab</div>
+            <div class="event-meta">April 2, 2026</div>
+        </div>
+        <div class="event-status open">Open</div>
+    </div>
+
+    <button class="primary-btn">Browse & RSVP to Events</button>
+</div>
+
+<div class="events-block">
+    <h3>Participation History</h3>
+
+    <div class="event-row">
+        <div>
+            <div class="event-title">Circular Economy Forum 2025</div>
+            <div class="event-meta">September 2025</div>
+        </div>
+        <div class="event-status attended">Attended</div>
+    </div>
+</div>
+
+</div>
+
+<!-- ================= COLLABORATION ================= -->
+<div id="collaboration" class="section">
+
+<div class="events-block">
+    <h3>Collaboration Initiatives</h3>
+    <button class="primary-btn">Propose Collaboration</button>
+    <button class="secondary-btn">Open Collaboration Form</button>
+</div>
+
+<div class="events-block" style="margin-top:30px;">
+    <h3>Active Requests</h3>
+
+    <div class="event-row">
+        <div class="event-info">
+            <div class="event-title">Packaging Optimization Pilot</div>
+            <div class="event-meta">
+                Partner: MicroTech · Submitted: Feb 2026
+            </div>
+        </div>
+
+        <div>
+            <div class="event-status review">Under Review</div>
+
+            <div class="approval-actions">
+                <button class="secondary-btn">Approve</button>
+                <button class="secondary-btn">Request Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="event-divider"></div>
+
+    <div class="event-row">
+        <div class="event-info">
+            <div class="event-title">Shared Procurement Initiative</div>
+            <div class="event-meta">
+                Partner: Toronto Recycling · Submitted: Jan 2026
+            </div>
+        </div>
+
+        <div>
+            <div class="event-status review">Under Review</div>
+        </div>
+    </div>
+</div>
+
+<div class="events-block" style="margin-top:30px;">
+    <h3>Finalized Initiatives</h3>
+
+    <div class="event-row">
+        <div>
+            <div class="event-title">Closed-Loop Materials Program</div>
+            <div class="event-meta">Completed November 2025</div>
+        </div>
+        <div class="event-status finalized">Published</div>
+    </div>
+</div>
+
+</div>
+
+</div>
+
+<script>
+function showSection(sectionId) {
+    document.querySelectorAll('.section').forEach(section => {
+        section.classList.remove('active');
+    });
+    document.getElementById(sectionId).classList.add('active');
+}
+</script>
+
+{% endblock %}

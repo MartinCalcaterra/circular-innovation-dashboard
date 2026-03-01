@@ -5,49 +5,62 @@ def login_view(request):
     if request.method == "POST":
         username = request.POST.get("username")
 
-        if username == "smallcompany":
-            return redirect("/user/?company=smallcompany")
+        if username == "initialmember":
+            return redirect("initial_dashboard")
 
-        elif username == "bigcompany":
-            return redirect("/user/?company=bigcompany")
+        elif username == "seniormember":
+            return redirect("senior_dashboard")
+
+        elif username == "leader":
+            return redirect("leader_dashboard")
 
         elif username == "admin":
-            return redirect("/admin/")
+            return redirect("admin_dashboard")
 
     return render(request, "login.html")
 
 
-def user_dashboard(request):
-    company = request.GET.get("company", "smallcompany")
+def initial_dashboard(request):
+    return render(
+        request,
+        "initial_dashboard.html",
+        {
+            "company_name": "GreenTech Co.",
+            "engagement": 72,
+            "events": 5,
+            "cohort_name": "Cohort 2025",
+            "role": "initial",
+        },
+    )
 
-    if company == "smallcompany":
-        context = {
-            "company_name": "Greenest Tech Corp.",
-            "tier": "Small Business",
-            "engagement": 62,
-            "events": 6,
-            "mentorship": 1,
-            "policy": 0,
-            "networking": 3,
-        }
-    else:
-        context = {
-            "company_name": "Eco Global Industries",
-            "tier": "Industry Leadership",
+
+def senior_dashboard(request):
+    return render(
+        request,
+        "senior_dashboard.html",
+        {
+            "company_name": "GreenTech Co.",
             "engagement": 88,
-            "events": 4,
-            "mentorship": 3,
-            "policy": 5,
-            "networking": 6,
-        }
+            "events": 12,
+            "cohort_name": "Cohort 2025",
+            "role": "senior",
+        },
+    )
 
-    return render(request, "user_dashboard.html", context)
+
+def leader_dashboard(request):
+    return render(
+        request,
+        "leader_dashboard.html",
+        {
+            "company_name": "GreenTech Co.",
+            "engagement": 95,
+            "events": 20,
+            "cohort_name": "Cohort 2025",
+            "role": "leader",
+        },
+    )
 
 
 def admin_dashboard(request):
-    companies = [
-        {"name": "smallcompany", "tier": "Small Business", "engagement": 62},
-        {"name": "bigcompany", "tier": "Industry Leadership", "engagement": 88},
-    ]
-
-    return render(request, "admin_dashboard.html", {"companies": companies})
+    return render(request, "admin_dashboard.html")

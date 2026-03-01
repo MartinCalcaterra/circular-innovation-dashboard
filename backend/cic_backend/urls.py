@@ -16,11 +16,12 @@ Including another URLconf
 """
 
 from django.urls import path
-from cic_backend import views
+from . import views
 
 urlpatterns = [
-    path("", views.login_view),
-    path("login/", views.login_view),
-    path("user/", views.user_dashboard),
-    path("admin/", views.admin_dashboard),
+    path("", views.login_view, name="login"),
+    path("initial/", views.initial_dashboard, name="initial_dashboard"),
+    path("senior/", views.senior_dashboard, name="senior_dashboard"),
+    path("leader/", views.leader_dashboard, name="leader_dashboard"),
+    path("admin/", views.admin_dashboard, name="admin_dashboard"),
 ]

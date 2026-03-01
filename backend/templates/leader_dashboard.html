@@ -1,0 +1,418 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+.dashboard {
+    max-width: 1200px;
+    margin: 40px auto;
+}
+
+.nav-tabs {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.nav-tabs button {
+    padding: 10px 18px;
+    border-radius: 20px;
+    border: none;
+    background: #4CAF50;
+    color: white;
+    cursor: pointer;
+    font-weight: 500;
+    transition: 0.2s ease;
+}
+
+.nav-tabs button:hover {
+    transform: translateY(-2px);
+}
+
+.section { display: none; }
+.section.active { display: block; }
+
+/* ===== Overview Layout ===== */
+
+.overview-layout {
+    display: flex;
+    gap: 40px;
+}
+
+.sidebar {
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.card {
+    background: white;
+    padding: 22px;
+    border-radius: 14px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+}
+
+.card h3 {
+    margin: 0;
+    font-size: 22px;
+}
+
+.card p {
+    margin: 6px 0 0 0;
+    color: #666;
+    font-size: 14px;
+}
+
+.progress-bar {
+    height: 10px;
+    background: #e5e5e5;
+    border-radius: 6px;
+    margin-top: 12px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #2a9d8f, #f4c430);
+}
+
+/* ===== Leadership Card ===== */
+
+.leader-card {
+    background: linear-gradient(135deg, #ffffff, #f8fbf9);
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    border-left: 6px solid #2a9d8f;
+}
+
+.status-badge {
+    background: linear-gradient(90deg, #2a9d8f, #f4c430);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+}
+
+/* ===== Shared Blocks ===== */
+
+.announcement-block,
+.progression-block,
+.events-block {
+    background: white;
+    padding: 25px;
+    border-radius: 14px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+}
+
+.announcement-item {
+    background: #f7f7f7;
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 12px;
+}
+
+/* ===== Progression ===== */
+
+.progress-steps {
+    display: flex;
+    align-items: center;
+    margin-top: 25px;
+}
+
+.step {
+    text-align: center;
+    flex: 1;
+}
+
+.dot {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    margin: 0 auto 8px auto;
+    background: linear-gradient(90deg, #2a9d8f, #f4c430);
+}
+
+.connector {
+    height: 4px;
+    flex: 1;
+    background: linear-gradient(90deg, #2a9d8f, #f4c430);
+}
+
+/* ===== Buttons ===== */
+
+.primary-btn {
+    padding: 10px 16px;
+    border-radius: 8px;
+    border: none;
+    background: linear-gradient(90deg, #2a9d8f, #f4c430);
+    color: white;
+    cursor: pointer;
+    font-weight: 600;
+    margin-top: 12px;
+}
+
+.secondary-btn {
+    padding: 10px 16px;
+    border-radius: 8px;
+    border: 1px solid #2a9d8f;
+    background: white;
+    color: #2a9d8f;
+    cursor: pointer;
+    font-weight: 600;
+    margin-top: 12px;
+}
+
+/* ===== Event Rows ===== */
+
+.event-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 0;
+}
+
+.event-title {
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.event-meta {
+    font-size: 13px;
+    color: #777;
+    margin-top: 4px;
+}
+
+.event-status {
+    font-size: 12px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: 700;
+}
+
+.hosted { background: #e0f2f1; color: #2a9d8f; }
+.upcoming { background: #fff8e1; color: #b8860b; }
+.vote-open { background: #e7f1ff; color: #1d4ed8; }
+.vote-closed { background: #e6ffed; color: #166534; }
+
+.event-divider {
+    height: 1px;
+    background: #eee;
+}
+
+</style>
+
+<div class="dashboard">
+
+<h2>Welcome, {{ company_name }}</h2>
+
+<div class="nav-tabs">
+    <button onclick="showSection('overview')">Overview</button>
+    <button onclick="showSection('announcements')">Announcements</button>
+    <button onclick="showSection('events')">Events</button>
+    <button onclick="showSection('vote')">Vote</button>
+</div>
+
+<!-- ================= OVERVIEW ================= -->
+<div id="overview" class="section active">
+
+<div class="overview-layout">
+
+<div class="sidebar">
+
+<div class="card">
+    <h3>92%</h3>
+    <p>Engagement Score</p>
+    <div class="progress-bar">
+        <div class="progress-fill" style="width: 92%;"></div>
+    </div>
+    <p style="font-size:12px; margin-top:10px; color:#777;">
+        Last updated: December 2025
+    </p>
+</div>
+
+<div class="card">
+    <h3>14</h3>
+    <p>Events Hosted</p>
+</div>
+
+<div class="card">
+    <h3>Leadership Activity</h3>
+
+    <p><strong>Open Votes:</strong> 1</p>
+    <p><strong>Active Hosted Events:</strong> 2</p>
+    <p><strong>Pending Announcements:</strong> 1</p>
+
+    <p style="font-size:12px; margin-top:10px; color:#777;">
+        Last action: Posted Policy Update · Feb 2026
+    </p>
+</div>
+
+</div>
+
+<div class="main-content">
+
+<div class="announcement-block">
+    <h3>Featured Governance Updates</h3>
+
+    <div class="announcement-item">
+        Federal Circular Economy Bill – Board Vote Scheduled.
+    </div>
+
+    <div class="announcement-item">
+        Executive Strategy Alignment – Q1 Industry Brief.
+    </div>
+</div>
+
+<div class="progression-block">
+    <h3>Membership Status</h3>
+
+    <div class="progress-steps">
+        <div class="step">
+            <div class="dot"></div>
+            <p>Initial</p>
+        </div>
+
+        <div class="connector"></div>
+
+        <div class="step">
+            <div class="dot"></div>
+            <p>Senior</p>
+        </div>
+
+        <div class="connector"></div>
+
+        <div class="step">
+            <div class="dot"></div>
+            <p>Leader</p>
+        </div>
+    </div>
+
+    <p style="margin-top:15px;">
+        Welcome Industry Leader / Partner.
+    </p>
+</div>
+
+</div>
+</div>
+</div>
+
+<!-- ================= ANNOUNCEMENTS ================= -->
+<div id="announcements" class="section">
+<div class="announcement-block">
+    <h3>Manage Announcements</h3>
+
+    <button class="primary-btn">Post Announcement</button>
+    <button class="secondary-btn">Manage Existing Announcements</button>
+
+    <div class="announcement-item">
+        Circular Procurement Standards – Updated.
+    </div>
+
+    <div class="announcement-item">
+        Board Policy Amendment Notice.
+    </div>
+
+    <div class="announcement-item">
+        National Sustainability Forum Registration.
+    </div>
+</div>
+</div>
+
+<!-- ================= EVENTS ================= -->
+<div id="events" class="section">
+
+<div class="events-block">
+    <h3>Host & Manage Events</h3>
+
+    <button class="primary-btn">Host New Event</button>
+    <button class="secondary-btn">Submit Event Proposal</button>
+</div>
+
+<div class="events-block" style="margin-top:30px;">
+    <h3>Upcoming Hosted Events</h3>
+
+    <div class="event-row">
+        <div>
+            <div class="event-title">National Circular Policy Summit</div>
+            <div class="event-meta">March 2026</div>
+        </div>
+        <div class="event-status upcoming">Upcoming</div>
+    </div>
+
+    <div class="event-divider"></div>
+
+    <div class="event-row">
+        <div>
+            <div class="event-title">Industry Innovation Forum</div>
+            <div class="event-meta">April 2026</div>
+        </div>
+        <div class="event-status upcoming">Upcoming</div>
+    </div>
+</div>
+
+<div class="events-block" style="margin-top:30px;">
+    <h3>Hosted Event History</h3>
+
+    <div class="event-row">
+        <div>
+            <div class="event-title">Circular Economy Forum 2025</div>
+            <div class="event-meta">September 2025</div>
+        </div>
+        <div class="event-status hosted">Hosted</div>
+    </div>
+</div>
+
+</div>
+
+<!-- ================= VOTE ================= -->
+<div id="vote" class="section">
+
+<div class="events-block">
+    <h3>Open Policy Votes</h3>
+
+    <div class="event-row">
+        <div>
+            <div class="event-title">Adoption of National Circular Procurement Standard</div>
+            <div class="event-meta">Voting closes: March 30, 2026</div>
+        </div>
+        <div class="event-status vote-open">Open</div>
+    </div>
+
+    <button class="primary-btn">Cast Vote</button>
+</div>
+
+<div class="events-block" style="margin-top:30px;">
+    <h3>Past Decisions</h3>
+
+    <div class="event-row">
+        <div>
+            <div class="event-title">Extended Producer Responsibility Framework</div>
+            <div class="event-meta">Approved – November 2025</div>
+        </div>
+        <div class="event-status vote-closed">Finalized</div>
+    </div>
+</div>
+
+</div>
+
+</div>
+
+<script>
+function showSection(sectionId) {
+    document.querySelectorAll('.section').forEach(section => {
+        section.classList.remove('active');
+    });
+    document.getElementById(sectionId).classList.add('active');
+}
+</script>
+
+{% endblock %}
