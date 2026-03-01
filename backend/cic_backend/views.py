@@ -5,13 +5,13 @@ def login_view(request):
     if request.method == "POST":
         username = request.POST.get("username")
 
-        if username == "initialmember":
+        if username == "CycleTech":
             return redirect("initial_dashboard")
 
-        elif username == "seniormember":
+        elif username == "EcoWrap":
             return redirect("senior_dashboard")
 
-        elif username == "leader":
+        elif username == "Evergreen":
             return redirect("leader_dashboard")
 
         elif username == "admin":
@@ -25,7 +25,7 @@ def initial_dashboard(request):
         request,
         "initial_dashboard.html",
         {
-            "company_name": "GreenTech Co.",
+            "company_name": "CycleTech Innovations",
             "engagement": 72,
             "events": 5,
             "cohort_name": "Cohort 2025",
@@ -39,7 +39,7 @@ def senior_dashboard(request):
         request,
         "senior_dashboard.html",
         {
-            "company_name": "GreenTech Co.",
+            "company_name": "EcoWrap Industries",
             "engagement": 88,
             "events": 12,
             "cohort_name": "Cohort 2025",
@@ -53,7 +53,7 @@ def leader_dashboard(request):
         request,
         "leader_dashboard.html",
         {
-            "company_name": "GreenTech Co.",
+            "company_name": "Evergreen Manufacturing",
             "engagement": 95,
             "events": 20,
             "cohort_name": "Cohort 2025",
